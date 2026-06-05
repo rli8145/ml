@@ -12,14 +12,14 @@ class LinearRegression:
         # absorb bias by appending column 
         return np.round(X @ self.weights, 5)
         
-    def error(self, mp: NDArray[np.float64], Y: NDArray[np.float64]) -> float:
+    def error(self, mp: NDArray[np.float64], target: NDArray[np.float64]) -> float:
         # diagnostic
-        mse = ((mp - Y) ** 2).sum() / len(mp)
+        mse = ((mp - target) ** 2).sum() / len(mp)
         return round(mse, 5)
     
-    def derivative(self, mp: NDArray[np.float64], Y: NDArray[np.float64], X: NDArray[np.float64], j: int) -> float:
+    def derivative(self, mp: NDArray[np.float64], target: NDArray[np.float64], X: NDArray[np.float64], j: int) -> float:
         # partial derivative of mse with respect to w_j
-        return -2 * np.dot(Y - mp, X[:, j]) / len(X)
+        return -2 * np.dot(target - mp, X[:, j]) / len(X)
 
     def fit(self, X: NDArray[np.float64], Y: NDArray[np.float64], initial_weights=None) -> None:
         if initial_weights is None:

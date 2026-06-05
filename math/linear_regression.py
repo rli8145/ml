@@ -8,7 +8,7 @@ class LinearRegression:
         self.weights = None
 
     def prediction(self, X: NDArray[np.float64]) -> NDArray[np.float64]:
-        # X is (n, m), weights is (m,) -> return (n,) predictions
+        # X is (n, m), weights is (m,) -> return (n,) predictions (n = # samples, m = # features)
         # absorb bias by appending column 
         return np.round(X @ self.weights, 5)
         
@@ -20,6 +20,7 @@ class LinearRegression:
     def derivative(self, mp: NDArray[np.float64], target: NDArray[np.float64], X: NDArray[np.float64], j: int) -> float:
         # partial derivative of mse with respect to w_j
         return -2 * np.dot(target - mp, X[:, j]) / len(X)
+        # note len(X) == len(mp) == len(Y)
 
     def fit(self, X: NDArray[np.float64], Y: NDArray[np.float64], initial_weights=None) -> None:
         if initial_weights is None:

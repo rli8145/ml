@@ -1,9 +1,8 @@
 import torch
-import torch.nn as nn
 import math
 from typing import List
 
-class Solution:
+class Initializer:
     def xavier_init(self, fan_in: int, fan_out: int) -> List[List[float]]:
         # Return a (fan_out x fan_in) weight matrix using Xavier/Glorot normal initialization
         torch.manual_seed(0) # same W produced every call

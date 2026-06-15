@@ -32,3 +32,5 @@ class LinearRegression:
             mp = self.prediction(X)
             gradients = np.array([self.derivative(mp, Y, X, j) for j in range(len(self.weights))])
             self.weights -= self.learning_rate * gradients
+
+# in context of neural nets, this is a network with no hidden layers and one output neuron with m features (=> m weights)

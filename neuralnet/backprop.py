@@ -1,39 +1,42 @@
 import numpy as np
 from numpy.typing import NDArray
+from typing import List
 
-# Complete backprop for two layer net
-# Architecture: x -> Linear(W1, b1) -> ReLU -> Linear(W2, b2) -> predictions
+# arbitrary depth
 
 def backprop(self,
-                            x: NDArray[np.float64],
-                            W1: NDArray[np.float64], b1: NDArray[np.float64],
-                            W2: NDArray[np.float64], b2: NDArray[np.float64],
-                            y_true: NDArray[np.float64]) -> dict:
+             x: NDArray[np.float64],
+             weights: List[NDArray[np.float64]],
+             biases: List[NDArray[np.float64]],
+             y_true: NDArray[np.float64]) -> dict:
+    
+    # assert len(weights) == len(biases)
 
-    # Forward pass
-    z1 = W1 @ x + b1
-    a1 = np.maximum(z1, 0)
-    z2 = W2 @ a1 + b2
+    # Forward pass - store intermediates
+    zs = []
+    activations = [x]
+    for W, b in zip(weights, biases):
+        z = W @ activations[-1] + b
+        zs.append(z)
+        a = np.maximum(z, 0) if W is not weights[-1] else z  # no ReLU on last layer
+        activations.append(a)
 
-    # Loss: MSE = mean((predictions - y_true)^2)
-    loss = np.mean((z2 - y_true) ** 2)
+    # Loss
+    loss = np.mean((activations[-1] - y_true) ** 2)
 
     # Backward pass
-    db2 = 2 * (z2 - y_true) / len(y_true)
-    dW2 = np.outer(db2, a1)
-    db1 = (W2.T @ db2) * np.heaviside(z1, 0)  # heaviside is derivative of ReLU and heaviside(ReLU(z_1)) == heaviside(np.maximum(z1, 0)) == heaviside(z1)
-    dW1 = np.outer(db1, x)
-    
+    dW_list = []
+    db_list = []
+    delta = 2 * (activations[-1] - y_true) / len(y_true)  # dL/dz at output
+
+    for i in reversed(range(len(weights))):
+        dW_list.append(np.outer(delta, activations[i]))
+        db_list.append(delta)
+        if i > 0:
+            delta = (weights[i].T @ delta) * np.heaviside(zs[i-1], 0)
+
     return {
         'loss': round(loss, 4),
-        'dW1': np.round(dW1, 4),
-        'db1': np.round(db1, 4),
-        'dW2': np.round(dW2, 4),
-        'db2': np.round(db2, 4),
+        'dW': [np.round(dW, 4) for dW in reversed(dW_list)],
+        'db': [np.round(db, 4) for db in reversed(db_list)],
     }
-
-# W_1 is (hidden_size, input_size), corresponds to hidden layer with hidden_size neurons
-# W_2 is (output_size, hidden_size), corresponds to output layer with output_size neurons
-# In general: W is (# neurons in cur layer, # neurons in prev layer)
-# Each neuron is a collection weights, one for each neuron of the previous layer, and a bias
-# Each neuron in a layer receives the full output of the previous layer 

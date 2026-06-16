@@ -1,7 +1,7 @@
 # multi-head:
-# each head attends to a different aspect of input - syntax, semantics, ..., these are emergent 
-# heads run in parallel, then are concacenated and projected by W_O
-# d_k = d/num_heads in practice so that total computation is same as single-headed attention with full dimension
+# X projected down to d_k = d/num_heads. intuitively, each head operates on a smaller subspace of embedding dimension and attends to a different aspect of input - syntax, semantics, ..., these are emergent. 
+# heads run in parallel, produce num_heads x (T, d_k) then concacenated to (T, d). W_O (d, d) then mixes across heads: (T, d) @ (d, d) -> (T, d)
+# since d_k = d/num_heads, total computation is same as single-headed attention with full dimension
 
 import torch
 import torch.nn as nn

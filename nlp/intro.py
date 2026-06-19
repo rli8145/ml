@@ -1,9 +1,7 @@
 import torch
 import torch.nn as nn
-from torchtyping import TensorType
-from typing import List
 
-def get_dataset(self, positive: List[str], negative: List[str]) -> TensorType[float]:
+def get_dataset(positive, negative):
     # build vocab, encode, pad shorter sentences with 0s
     
     sentences = positive + negative

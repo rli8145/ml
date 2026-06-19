@@ -5,12 +5,11 @@
 
 import torch
 import torch.nn as nn
-from torchtyping import TensorType
 from single_head import SingleHeadAttention
 
 # T = num_tokens/seq_length, d = embedding_dim, d_k = attention_dim
 class MultiHeadedSelfAttention(nn.Module):
-    def __init__(self, d: int, d_k: int, num_heads: int):
+    def __init__(self, d, d_k, num_heads):
         super().__init__()
         torch.manual_seed(0)
         self.d_k = d_k // num_heads
@@ -18,7 +17,7 @@ class MultiHeadedSelfAttention(nn.Module):
         self.proj = nn.Linear(d_k, d_k, bias=False) # W_O
 
 
-    def forward(self, X: TensorType[float]) -> TensorType[float]:
+    def forward(self, X):
         out = torch.cat([head(X) for head in self.heads], dim=2)
         # (batch, T, attention_dim) @ (attention_dim, attention_dim) -> (batch, T, attention_dim)
         return torch.round(self.proj(out), decimals=4)

@@ -1,7 +1,6 @@
 import numpy as np
-from typing import List
 
-def rms_norm(self, x: List[float], gamma: List[float], eps: float) -> List[float]:
+def rms_norm(x, gamma, eps):
     # RMS Normalization
 
     x, gamma = np.array(x), np.array(gamma)

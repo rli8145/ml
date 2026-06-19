@@ -1,9 +1,7 @@
 import numpy as np
-from numpy.typing import NDArray
-from typing import Tuple
 
 # backward pass for a single neuron with sigmoid activation and MSE loss
-def backward(self, x: NDArray[np.float64], w: NDArray[np.float64], b: float, y_true: float) -> Tuple[NDArray[np.float64], float]:
+def backward(x, w, b, y_true):
     # x: 1D input array
     # w: 1D weight array
 

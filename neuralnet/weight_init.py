@@ -1,9 +1,8 @@
 import torch
 import math
-from typing import List
 
 class Initializer:
-    def xavier_init(self, fan_in: int, fan_out: int) -> List[List[float]]:
+    def xavier_init(self, fan_in, fan_out):
         # Return a (fan_out x fan_in) weight matrix using Xavier/Glorot normal initialization
         torch.manual_seed(0) # same W produced every call
         std = math.sqrt(2/(fan_in + fan_out))
@@ -11,14 +10,14 @@ class Initializer:
         # torch.randn(y,x) generates a matrix of shape (y,x) from N(0,1)
         return W.round(decimals=4).tolist()
 
-    def kaiming_init(self, fan_in: int, fan_out: int) -> List[List[float]]:
+    def kaiming_init(self, fan_in, fan_out):
         # Return a (fan_out x fan_in) weight matrix using Kaiming/He normal initialization (for ReLU)
         torch.manual_seed(0)
         std = math.sqrt(2/fan_in)
         W = torch.randn(fan_out, fan_in) * std
         return W.round(decimals=4).tolist()
 
-    def check_activations(self, num_layers: int, input_dim: int, hidden_dim: int, init_type: str) -> List[float]:
+    def check_activations(self, num_layers, input_dim, hidden_dim, init_type):
         # Forward random input through num_layers with the given init_type.
         torch.manual_seed(0)
         x = torch.randn(1000, input_dim) # batch of 1000 vectors of size input_dim i.e. (batch_size, features)

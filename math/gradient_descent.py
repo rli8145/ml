@@ -1,5 +1,4 @@
-
-def get_minimizer(iterations: int, learning_rate: float, init: int) -> float:
+def get_minimizer(iterations, learning_rate, init):
     # Objective function: f(x) = x^2
     # Derivative:         f'(x) = 2x
     # Update rule:        x = x - learning_rate * f'(x)

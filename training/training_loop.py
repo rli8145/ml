@@ -1,8 +1,6 @@
 import numpy as np
-from numpy.typing import NDArray
-from typing import Tuple
 
-def train(self, X: NDArray[np.float64], y: NDArray[np.float64], epochs: int, lr: float) -> Tuple[NDArray[np.float64], float, float]:
+def train(X, y, epochs, lr):
     # X: (n_samples, n_features)
     # y: (n_samples,) targets
     # epochs: number of training iterations

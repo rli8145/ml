@@ -1,14 +1,8 @@
 import numpy as np
-from numpy.typing import NDArray
-from typing import List
 
 # arbitrary depth
 
-def backprop(self,
-             x: NDArray[np.float64],
-             weights: List[NDArray[np.float64]],
-             biases: List[NDArray[np.float64]],
-             y_true: NDArray[np.float64]) -> dict:
+def backprop(x, weights, biases, y_true):
     
     # assert len(weights) == len(biases)
 

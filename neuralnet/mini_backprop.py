@@ -1,14 +1,9 @@
 import numpy as np
-from numpy.typing import NDArray
 
 # Complete backprop for two layer net
 # Architecture: x -> Linear(W1, b1) -> ReLU -> Linear(W2, b2) -> preds
 
-def backprop(self,
-                            x: NDArray[np.float64],
-                            W1: NDArray[np.float64], b1: NDArray[np.float64],
-                            W2: NDArray[np.float64], b2: NDArray[np.float64],
-                            y_true: NDArray[np.float64]) -> dict:
+def backprop(x, W1, b1, W2, b2, y_true):
 
     # Forward pass
     z1 = W1 @ x + b1

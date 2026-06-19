@@ -1,13 +1,12 @@
 import numpy as np
-from numpy.typing import NDArray
 
 class Neuron:
-    def __init__(self, weights: NDArray[np.float64], bias: float, activation: str):
+    def __init__(self, weights, bias, activation):
         self.weights = weights
         self.bias = bias
         self.activation = activation
 
-    def forward(self, x: NDArray[np.float64]) -> float:
+    def forward(self, x):
         z = np.dot(x, self.weights) + self.bias
         if self.activation == "sigmoid":
             return round(float(1 / (1 + np.exp(-z))), 5)
